@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base64 to Image | Axess Group</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+      integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+      crossorigin="anonymous"
+    />
+    <style>
+      .wrapper-button {
+        display: flex;
+        gap: 4px;
+      }
+      .wrapper-button button {
+        flex: 1;
+      }
+      body {
+        background-color: #405357;
+      }
+      .btn-primary {
+        background-color: #008ca3 !important;
+        border: 1px solid #008ca3 !important;
+      }
+      header {
+        background-color: #008ca3;
+      }
+      input {
+        background-color: transparent !important;
+      }
+      .logo {
+        width: fit-content;
+        width: -moz-fit-content;
+        padding: 8px;
+        margin: 0px auto;
+      }
+      .wrapper {
+        max-width: 480px;
+        margin: 2rem auto;
+      }
+      .img-responsive {
+        width: 100%;
+        height: auto;
+        margin-top: 32px;
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <header>
+      <div class="container-md pt-2 pb-3">
+        <!-- <h2 class="text-white mb-0 text-center">Base64 to Image</h2> -->
+        <div class="bg-white logo">
+          <img
+            class="d-block"
+            src="https://www.axessgroup.com/wp-content/themes/axess/images/AxessGroup-Logo.png?t=1"
+            alt="Logo"
+          />
+        </div>
+      </div>
+    </header>
+    <section>
+      <div class="wrapper">
+        <form id="form-primary">
+          <div class="form-group">
+            <label for="response">Base-64</label>
+            <input
+              type="text"
+              class="form-control text-white"
+              id="response"
+              aria-describedby="base64"
+            />
+          </div>
+          <div class="form-group">
+            <label for="imageName">Image name</label>
+            <input
+              id="imageName"
+              type="text"
+              class="form-control text-white"
+              value="image.png"
+            />
+          </div>
+
+          <div class="wrapper-button">
+            <button type="submit" class="btn btn-primary" id="BaseToImage">
+              Convert to Image
+            </button>
+
+            <button type="button" class="btn btn-primary" id="reset">
+              Reset base-64
+            </button>
+
+            <a
+              href="#"
+              type="button"
+              class="btn btn-primary disabled"
+              id="downloadImage"
+              download="image.png"
+            >
+              Download Image
+            </a>
+          </div>
+        </form>
+
+        <div>
+          <img id="preview" src="" class="img-responsive" />
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // Convert Base64 to Image
+      $(document).ready(function () {
+        $("#BaseToImage").click(function () {
+          document
+            .getElementById("preview")
+            .setAttribute("src", $("#response").val());
+          $("#preview").show();
+          $("#downloadImage").attr("href", $("#response").val());
+          $("#downloadImage").removeClass("disabled");
+        });
+      });
+      // Convert Base64 to Image
+      $(document).ready(function () {
+        $("#reset").click(function () {
+          $("#response").val("");
+        });
+      });
+      // Set image name
+      $(document).ready(function () {
+        $("#downloadImage").click(function () {
+          $(this).attr("download", $("#imageName").val());
+        });
+      });
+      //Convert Image to Base64
+      $(document).ready(function () {
+        $("#form-primary").submit(function (event) {
+          event.preventDefault();
+        });
+        $("#inputFileToLoad").change(function () {
+          var filesSelected = document.getElementById("inputFileToLoad").files;
+          if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (fileLoadedEvent) {
+              var base64value = fileLoadedEvent.target.result;
+              $("#response").val(base64value);
+            };
+            fileReader.readAsDataURL(fileToLoad);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
